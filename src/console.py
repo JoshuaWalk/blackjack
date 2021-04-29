@@ -23,7 +23,7 @@ class Console():
         }
         self.choices = {
             "1" : self.hit,
-            "2" : None,
+            "2" : 'stand',
             "q" : self.quit
         }
 
@@ -47,34 +47,33 @@ class Console():
 
     def start_game(self):
         self.game.deal()
+        self.display_players()
         for player in self.game.players:
             self.player_turn(player)
+        self.end_game()
 
     def player_turn(self, player):
-        self.print_options()
-        while True:
-            choice = input('What would you like to do?')
-            action = self.choices.get(choice)
-            if choice == 2:
-                break
-            elif action:
-                action(player)
-            else: 
-                print('invalid option')
+        try:
+            while True:
+                self.display_hand(player)
+                self.print_options(player)
+                choice = input('What would you like to do?')
+                action = self.choices.get(choice)
+                if action:
+                    if action == 'stand':
+                        raise PlayerStood
+                    action(player)
+                else: 
+                    print('invalid option')
+        except PlayerStood: pass
 
     def hit(self, player):
         self.game.hit(player)
-        self.display_player(player)
 
-    
-    def player_busts(self, player):
-        print(f'{player.name} busts!')
-
-    def display_winner(self):
-        winner = self.game.winner
-        print('=========== GAME OVER ==============')
-        print(f'======= {winner.name} wins! =======')
-        print(f'Total: {winner.total}')
+    def end_game(self):
+        self.game.win_check()
+        self.bust_announcements()
+        self.display_winner()
 
     def quit(self):
         ''' terminates program '''
@@ -92,16 +91,23 @@ class Console():
         print('==================================')
 
     def print_menu(self):
+        print('==================================')
+        print('=========== MAIN MENU ============')
+        print('==================================')
         print('[0] Add Player')
         print('[1] List Players')
         print('[2] Start Game')
-        print('[q] Quit')    
+        print('[q] Quit')  
+        print('==================================')  
 
-    def print_options(self):
-        print('\nOPTIONS: ')
+    def print_options(self, player):
+        print('==================================')
+        print(f"====== {player.name}'s OPTIONS =======")
+        print('==================================')
         print('[1] - Hit')
         print('[2] - Stand')
-        print('[q] - Quit')    
+        print('[q] - Quit')
+        print('==================================')   
 
     def display_card(self, card):
         ''' displays a card '''
@@ -109,15 +115,30 @@ class Console():
 
     def display_hand(self, player):
         ''' displays a players hand '''
+        print(f"========= {player.name}'s hand ========")
+        print(f"========= TOTAL: {player.total} ===========")
         for card in player.hand:
             self.display_card(card)
-
-    def display_player(self, player):
-        ''' displays info for single player '''
-        print(player.name, f'total: {player.total}\nPlayers Hand:')
-        self.display_hand(player)
+        print('==================================')
 
     def display_players(self):
         ''' displays all player names '''
         for player in self.game.players:
-            print(player.name)
+            self.display_hand(player)
+
+    def player_busts(self, player):
+        if player.total > 21:
+            print(f'{player.name} busts!')
+
+    def bust_announcements(self):
+        for player in self.game.players:
+            self.player_busts(player)
+
+    def display_winner(self):
+        for winner in self.game.winner:
+            print('=========== GAME OVER ==============')
+            print(f'======= {winner.name} wins! =======')
+            print(f'Total: {winner.total}')
+
+
+class PlayerStood(Exception): pass

@@ -13,7 +13,7 @@ class Rules(Game):
         Game.__init__(self)
         self.name = 'Blackjack'
         self.dealer = BlackjackDealer()
-        self.winner = self.dealer
+        self.winner = []
 
     def bust_check(self, player):
         self.busted_aces(player)
@@ -26,4 +26,16 @@ class Rules(Game):
                 if player.total <= 21: break
                 player.total -= 10
                 card.is_used = True
+
+    def did_win(self, player):
+        if player.total > self.dealer.total and player.total <= 21:
+            self.winner.append(player)
+
+    def win_check(self):
+        for player in self.players:
+            self.did_win(player)
+        if self.winner == []:
+            self.winner.append(self.dealer)
+
+    
 
