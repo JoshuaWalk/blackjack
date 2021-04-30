@@ -21,12 +21,16 @@ class Actions(Rules):
         self.hit(self.dealer)
 
     def hit(self, player):
-        ''' takes card from deck to player hand '''
+        ''' pulls card from deck to player hand '''
         card = self.deck.cards.pop()
-        player.hand.append(card)
-        self.add_card(card, player)
+        self.card_to_hand(player, card)
 
-    def add_card(self, card, player):
+    def card_to_hand(self, player, card):
+        ''' adds a card to players hand'''
+        player.hand.append(card)
+        self.add_card(player, card)
+
+    def add_card(self, player, card):
         ''' adds value of card to players total '''
         if card.value == 'Ace' and player.total + 11 > 21:
             player.total += 1

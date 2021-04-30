@@ -4,8 +4,8 @@ name:
 description:
     handles players and deck
 '''
-from card import Deck
-from player import Player
+from src.card import Deck
+from src.player import Player
 
 
 class Game:
@@ -20,3 +20,7 @@ class Game:
 
     def add_player(self, player):
         self.players.append(Player(player))
+
+    def show(self):
+        for player in self.players:
+            return player.name

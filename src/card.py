@@ -22,6 +22,9 @@ class Card:
         self.value = value
         self.is_used = False
 
+    def show(self):
+        return (f'{self.value} of {self.suit}')
+
 class Deck:
     '''
     description:
