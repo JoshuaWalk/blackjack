@@ -5,7 +5,7 @@ description:
     console display for blackjack
 '''
 import os, sys
-from actions import Actions
+from blackjack_rules import Blackjack
 
 class Console():
     '''
@@ -14,7 +14,7 @@ class Console():
         this module controls the display of the application
     '''
     def __init__(self):
-        self.game = Actions()
+        self.game = Blackjack()
         self.menu = {
             "0" : self.add_player,
             "1" : self.display_players,
@@ -30,9 +30,9 @@ class Console():
     def run_menu(self):
         ''' start menu for game '''
         self.display_title()
-        self.print_menu()
+        
         while True:
-
+            self.print_menu()
             choice = input('Enter Option:\n')
 
             action = self.menu.get(choice)
@@ -47,6 +47,7 @@ class Console():
 
     def start_game(self):
         self.game.deal()
+        self.game.dealer.show_one_card()
         self.display_players()
         for player in self.game.players:
             self.player_turn(player)
@@ -54,10 +55,10 @@ class Console():
 
     def player_turn(self, player):
         try:
-            while True:
+            while player.total <= 21:
                 self.display_hand(player)
                 self.print_options(player)
-                choice = input('What would you like to do?')
+                choice = input('What would you like to do?\n')
                 action = self.choices.get(choice)
                 if action:
                     if action == 'stand':
@@ -67,10 +68,18 @@ class Console():
                     print('invalid option')
         except PlayerStood: pass
 
+    def dealer_turn(self):
+        dealer = self.game.dealer
+        while dealer.total <= 17:
+            self.hit(dealer)
+            self.display_hand(self.game.dealer)
+
+
     def hit(self, player):
         self.game.hit(player)
 
     def end_game(self):
+        self.dealer_turn()
         self.game.win_check()
         self.bust_announcements()
         self.display_winner()

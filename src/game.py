@@ -4,8 +4,8 @@ name:
 description:
     handles players and deck
 '''
-from src.card import Deck
-from src.player import Player
+from card import Deck
+from player import Player
 
 
 class Game:

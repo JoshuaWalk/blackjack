@@ -31,21 +31,31 @@ class BlackjackDealer(Player):
     methods:
         showHand - calls show method on every card in hand
     '''
-    def __init__(self):
+    def __init__(self, game):
         Player.__init__(self, 'Dealer')
         self.hide_card = True
+        self.game = game
 
 
-    def showHand(self):
-        print("\nDealer's Hand:")
-        if self.hide_card == False:
-            print('DEALER TOTAL: ', self.total, '\n')
+    def turn(self):
+        self.game.hit(self)
+
+
+    def soft_hand(self):
         for card in self.hand:
-            if self.hide_card == True:
-                print('hidden card')
-                self.hide_card = False
-            else:
-                card.show()
+            if card.value == 'Ace' and card.is_used == False and self.total <= 17:
+                self.game.hit(self)
+
+    def show_one_card(self):
+        ''' displays 1 of dealers cards '''
+        print(f"========= {self.name}'s Hand ========")
+        print('==================================')
+        print(f'{self.hand[0].value} of {self.hand[0].suit}')
+        print('Hidden Card')
+        print('==================================')
+
+
+
 
     def restart(self):
         self.hand = []
