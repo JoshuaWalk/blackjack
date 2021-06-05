@@ -74,3 +74,12 @@ class Blackjack(Game):
                 self.did_win(player)
         elif self.winner == []:
             self.winner.append(self.dealer)
+
+    def reset(self):
+        for player in self.players:
+            player.hand = []
+            player.total = 0
+            player.is_busted = False
+        self.dealer.hand = []
+        self.dealer.total = 0
+        self.dealer.is_busted = False

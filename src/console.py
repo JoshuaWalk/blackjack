@@ -21,6 +21,7 @@ class Console():
             "2" : self.start_game,
             "q" : self.quit
         }
+        
         self.choices = {
             "1" : self.hit,
             "2" : 'stand',
@@ -48,14 +49,16 @@ class Console():
     def start_game(self):
         self.game.deal()
         self.game.dealer.show_one_card()
-        self.display_players()
+        
         for player in self.game.players:
             self.player_turn(player)
         self.end_game()
-
+        self.restart()
+        
     def player_turn(self, player):
         try:
             while player.total <= 21:
+                self.display_players()
                 self.display_hand(player)
                 self.print_options(player)
                 choice = input('What would you like to do?\n')
@@ -63,6 +66,8 @@ class Console():
                 if action:
                     if action == 'stand':
                         raise PlayerStood
+                    elif action == 'q':
+                        self.quit()
                     action(player)
                 else: 
                     print('invalid option')
@@ -74,7 +79,6 @@ class Console():
             self.hit(dealer)
             self.display_hand(self.game.dealer)
 
-
     def hit(self, player):
         self.game.hit(player)
 
@@ -83,6 +87,10 @@ class Console():
         self.game.win_check()
         self.bust_announcements()
         self.display_winner()
+
+    def restart(self):
+        self.game.reset()
+        self.start_game()
 
     def quit(self):
         ''' terminates program '''

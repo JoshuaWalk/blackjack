@@ -54,6 +54,12 @@ class Deck:
         for s in suits:
             for v in values:
                 self.add_card(Card(s, v))
+    
+    def multi_decks(self, number):
+        for i in range(number): self.build()
+
+    def multi_shuffle(self, number):
+        for i in range(number): self.shuffle()
 
     def draw(self):
         return self.cards.pop()

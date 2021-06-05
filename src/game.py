@@ -15,12 +15,10 @@ class Game:
     
     def init_deck(self):
         deck = self.deck 
-        deck.build()
-        deck.shuffle()
+        deck.multi_decks(5)
+        deck.multi_shuffle(5)
 
     def add_player(self, player):
         self.players.append(Player(player))
 
-    def show(self):
-        for player in self.players:
-            return player.name
+    
