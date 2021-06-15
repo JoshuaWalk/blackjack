@@ -1,4 +1,5 @@
 __pycache__
 .vscode
+.venv
 .pytest_cache
 tests/__pycache__/

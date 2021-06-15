@@ -1,5 +1,5 @@
 import pytest
-from src.card import *
+from src.card import Card, Deck
 from tests.params import low_cards
 
 @pytest.fixture

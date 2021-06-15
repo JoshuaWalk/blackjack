@@ -1,6 +1,6 @@
 import pytest
-from src.game import *
-from tests.game_params import *
+from src.game import Game, Player
+from tests.game_params import better_list
 
 @pytest.fixture
 def game():
@@ -9,8 +9,7 @@ def game():
 
 @pytest.fixture
 def add_player_to_game(game, player):
-    new = Player(player)
-    game.add_player(new)
+    game.add_player(player)
     return game
 
 
@@ -18,4 +17,4 @@ def add_player_to_game(game, player):
 @pytest.mark.parametrize("player, out", better_list)
 def test_add_player(player, out, game):
     game.add_player(player)
-    assert game.show() == out
+    assert game.players[0].name == out
