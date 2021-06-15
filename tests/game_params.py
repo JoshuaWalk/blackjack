@@ -25,6 +25,14 @@ card_to_ace =[
     (Card('Spades', 'Ace'), 19),
 ]
 
+bust_check =[
+    (Card('Spades', 3), False),
+    (Card('Diamonds', 4), True),
+    (Card('Diamonds', 7), True),
+    (Card('Hearts', 2), False),
+    (Card('Spades', 'Ace'), False),
+]
+
 player_list = [
     'Josh',
     'Ethan',

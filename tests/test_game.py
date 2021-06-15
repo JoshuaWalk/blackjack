@@ -1,6 +1,6 @@
 import pytest
 from src.game import Game, Player
-from tests.game_params import better_list
+from game_params import better_list
 
 @pytest.fixture
 def game():
