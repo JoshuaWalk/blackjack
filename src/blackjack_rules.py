@@ -1,11 +1,4 @@
-'''
-name:
-    actions.py
-description:
-    deals cards between decks and players, child of game and rules
-'''
-
-from game import *
+from game import Game
 from player import BlackjackDealer
 
 class Blackjack(Game):
@@ -44,18 +37,16 @@ class Blackjack(Game):
         elif card.value == 'Jack' or card.value == 'Queen' or card.value == 'King':
             player.total += 10
         else: player.total += card.value
-
-    def determine_winner(self):
-        ''' sets the winner of the game '''
-        for player in self.players:
-            self.did_win(player)
+        self.bust_check(player)
 
     def bust_check(self, player):
+        ''' determines if player is busted, calls busted_aces '''
         self.busted_aces(player)
         if player.total > 21:
             player.is_busted = True
 
     def busted_aces(self, player):
+        ''' if player is over 21 and has ace in hand -10 '''
         for card in player.hand:
             if card.value == 'Ace' and card.is_used == False:
                 if player.total <= 21: break
@@ -63,6 +54,7 @@ class Blackjack(Game):
                 card.is_used = True
 
     def did_win(self, player):
+        ''' checks individual player for win '''
         if player.total > self.dealer.total and player.total <= 21:
             self.winner.append(player)
 
@@ -72,8 +64,6 @@ class Blackjack(Game):
         elif self.dealer.is_busted == False:
             for player in self.players:
                 self.did_win(player)
-        elif self.winner == []:
-            self.winner.append(self.dealer)
 
     def reset(self):
         for player in self.players:
