@@ -9,11 +9,13 @@ class Player:
         is_busted - determines if player has busted
         
     '''
-    def __init__(self, name):
+    def __init__(self, name, wager):
         self.name = name
         self.hand = []
         self.total = 0
         self.is_busted = False
+        self.wager = wager
+        self.reward = 0
         
     def restart(self):
         self.hand = []
@@ -32,7 +34,7 @@ class BlackjackDealer(Player):
         showHand - calls show method on every card in hand
     '''
     def __init__(self, game):
-        Player.__init__(self, 'Dealer')
+        Player.__init__(self, 'Dealer', None)
         self.hide_card = True
         self.game = game
 

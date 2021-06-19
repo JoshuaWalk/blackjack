@@ -4,7 +4,7 @@ name:
 description:
     console display for blackjack
 '''
-import os, sys, time
+import os, sys
 from blackjack_rules import Blackjack
 
 class Console():
@@ -44,15 +44,15 @@ class Console():
 
     def add_player(self):
         name = input('What is your name?\n')
-        self.game.add_player(name)
+        wager = input('How much do you want to bet?\n')
+        self.game.add_player(name, wager)
 
     def start_game(self):
         self.game.deal()
         for player in self.game.players:
             self.player_turn(player)
-            time.sleep(3)
         self.dealer_turn()
-        self.end_game()
+        self.display_payout()
         self.restart()
         
     def player_turn(self, player):
@@ -60,7 +60,6 @@ class Console():
             while player.total <= 21:
                 self.display_players()
                 self.display_hand(player)
-                time.sleep(3)
                 self.print_options(player)
                 choice = input('What would you like to do?\n')
                 action = self.choices.get(choice)
@@ -78,23 +77,22 @@ class Console():
         while dealer.total < 17:
             self.hit(dealer)
             self.display_hand(dealer)
-            time.sleep(3)
-
+            
     def hit(self, player):
         self.game.hit(player)
 
-    def end_game(self):
-        self.game.win_check()
-        self.bust_announcements()
-        self.display_winner()
-
     def restart(self):
         self.game.reset()
+        self.reset_bets()
         self.start_game()
+
+    def reset_bets(self):
+        for player in self.game.players:
+            new_bet = input(f'{player.name}:\n What would you like to bet?\n')
+            self.game.reset_wager(player, new_bet)
 
     def quit(self):
         ''' terminates program '''
-
         print('Thanks for playing!!')
         sys.exit(0)
 
@@ -147,7 +145,6 @@ class Console():
         for player in self.game.players:
             self.display_hand(player) 
         print('================ END OF TABLE ===================')
-        time.sleep(2)
 
     def player_busts(self, player):
         if player.total > 21:
@@ -156,6 +153,18 @@ class Console():
     def bust_announcements(self):
         for player in self.game.players:
             self.player_busts(player)
+
+    def display_payout(self):
+        for player in self.game.players:
+            self.game.evaluate_payout(player)
+            self.determine_payout(player)
+    
+    def determine_payout(self, player):
+            if player.reward == 0:
+                print(f'{player.name} lost bet')
+            elif player.reward == player.wager:
+                print(f'{player.name} tied with dealer, bet is returned {player.reward}')
+            else: print(f'{player.name} won! they recieved {player.reward}')
 
     def display_winner(self):
         if self.game.winner == []:

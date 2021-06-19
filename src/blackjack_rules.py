@@ -53,17 +53,13 @@ class Blackjack(Game):
                 player.total -= 10
                 card.is_used = True
 
-    def did_win(self, player):
-        ''' checks individual player for win '''
-        if player.total > self.dealer.total and player.total <= 21:
-            self.winner.append(player)
-
-    def win_check(self):
-        if self.dealer.is_busted == True:
-            self.winner = [player for player in self.players if player.is_busted == False]
-        elif self.dealer.is_busted == False:
-            for player in self.players:
-                self.did_win(player)
+    def evaluate_payout(self, player):
+        if player.is_busted == True: 
+            player.reward = 0
+        elif player.total > self.dealer.total:
+            player.reward = int(player.wager) * 2
+        elif player.total == self.dealer.total:
+            player.reward = player.wager
 
     def reset(self):
         for player in self.players:
@@ -73,3 +69,9 @@ class Blackjack(Game):
         self.dealer.hand = []
         self.dealer.total = 0
         self.dealer.is_busted = False
+
+    def reset_wager(self, player, bet):
+        player.wager = bet
+        
+        
+            

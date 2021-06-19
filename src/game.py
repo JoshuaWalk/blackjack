@@ -18,7 +18,7 @@ class Game:
         deck.multi_decks(5)
         deck.multi_shuffle(5)
 
-    def add_player(self, player):
-        self.players.append(Player(player))
+    def add_player(self, name, wager):
+        self.players.append(Player(name, wager))
 
     
