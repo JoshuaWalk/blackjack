@@ -1,6 +1,6 @@
 import pytest
-from src.card import Card
-from src.blackjack_rules import Blackjack
+from card import Card
+from blackjack_rules import Blackjack
 
 @pytest.fixture
 def blackjack():
@@ -9,19 +9,19 @@ def blackjack():
 
 @pytest.fixture
 def blackjack_1p(blackjack):
-    blackjack.add_player('Josh')
+    blackjack.add_player('Josh', 50)
     return blackjack
 
 @pytest.fixture
 def blackjack_2p(blackjack_1p):
-    blackjack_1p.add_player('Kev')
+    blackjack_1p.add_player('Kev', 50)
     return blackjack_1p
 
 @pytest.fixture
 def blackjack_5p(blackjack_2p):
-    blackjack_2p.add_player('Rich')
-    blackjack_2p.add_player('Gerald')
-    blackjack_2p.add_player('Harold')
+    blackjack_2p.add_player('Rich', 50)
+    blackjack_2p.add_player('Gerald', 50)
+    blackjack_2p.add_player('Harold', 50)
     return blackjack_2p
 
 @pytest.fixture
@@ -47,9 +47,9 @@ def two_high_cards(blackjack_1p):
 @pytest.fixture
 def game_with_3p():
     game = Blackjack()
-    game.add_player('Fry')
-    game.add_player('Leela')
-    game.add_player('Bender')
+    game.add_player('Fry', 500000)
+    game.add_player('Leela', 300)
+    game.add_player('Bender', 80)
     return game
 
 @pytest.fixture

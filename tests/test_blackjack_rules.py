@@ -56,28 +56,3 @@ def test_busting(card, value, two_high_cards):
     game = two_high_cards
     game.card_to_hand(game.players[0], card)
     assert game.players[0].is_busted == value
-
-@pytest.mark.winning
-def test_some_win(some_win):
-    some_win.win_check()
-    assert len(some_win.winner) == 2
-    
-@pytest.mark.winning
-def test_some_win_names(some_win):
-    some_win.win_check()
-    assert some_win.winner[0].name == 'Fry' and some_win.winner[1].name == 'Leela'
-
-@pytest.mark.winning
-def test_all_players_win(all_players_win):
-    all_players_win.win_check()
-    assert len(all_players_win.winner) == 3
-
-@pytest.mark.winning
-def test_dealer_busts(dealer_busts):
-    dealer_busts.win_check()
-    assert len(dealer_busts.winner) == 2
-
-@pytest.mark.winning
-def test_dealer_wins(dealer_wins):
-    dealer_wins.win_check()
-    assert len(dealer_wins.winner) == 0
