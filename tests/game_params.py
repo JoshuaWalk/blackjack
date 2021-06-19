@@ -1,4 +1,5 @@
 from src.card import Card
+from src.player import Player
 
 card_and_value =[
     (Card('Spades', 3), 3),
@@ -34,10 +35,10 @@ bust_check =[
 ]
 
 player_list = [
-    'Josh',
-    'Ethan',
-    'Kirsten',
-    'AJ'
+    ('Josh', 50, 'Josh'),
+    ('Ethan', 74, 'Ethan'),
+    ('Kirsten', 53, 'Kirsten'),
+    ('AJ', 51, 'AJ')
 ]
 
 better_list = [(item, item) for item in player_list]
