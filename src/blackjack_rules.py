@@ -53,10 +53,16 @@ class Blackjack(Game):
                 player.total -= 10
                 card.is_used = True
 
+    def evaluate_payout_all(self):
+        for player in self.players:
+            self.evaluate_payout(player)
+
     def evaluate_payout(self, player):
         if player.is_busted == True: 
             player.reward = 0
         elif player.total > self.dealer.total:
+            player.reward = int(player.wager) * 2
+        elif self.dealer.is_busted == True and player.is_busted == False:
             player.reward = int(player.wager) * 2
         elif player.total == self.dealer.total:
             player.reward = player.wager
