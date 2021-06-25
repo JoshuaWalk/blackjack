@@ -1,5 +1,5 @@
 import pytest
-from src import card
+from src.card import Card
 from game_params import low_cards
 
 @pytest.fixture
