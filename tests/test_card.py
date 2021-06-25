@@ -1,10 +1,10 @@
 import pytest
-from src.card import Card
+from src.card import Card, Deck
 from game_params import low_cards
 
 @pytest.fixture
 def empty_deck():
-    deck = card.Deck()
+    deck = Deck()
     return deck
 
 @pytest.fixture
