@@ -74,6 +74,7 @@ class Console():
 
     def dealer_turn(self):
         dealer = self.game.dealer
+        self.display_hand(dealer)
         while dealer.total < 17:
             self.hit(dealer)
             self.display_hand(dealer)
