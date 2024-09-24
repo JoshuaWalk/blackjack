@@ -69,7 +69,9 @@ class Console():
                     elif action == 'q':
                         self.quit()
                     else: action(player)
-                
+            if player.total > 21:
+                self.display_hand(player)
+                self.player_busts(player)        
         except PlayerStood: pass
 
     def dealer_turn(self):
@@ -148,7 +150,6 @@ class Console():
         print('================ END OF TABLE ===================')
 
     def player_busts(self, player):
-        if player.total > 21:
             print(f'{player.name} busts!')
 
     def bust_announcements(self):
